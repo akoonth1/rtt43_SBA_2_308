@@ -107,5 +107,16 @@
 //   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
   
 //   console.log(result);
+
+
+
   
+// function to calculate the normalized grade
+
+let normalizedgrade = function (points_earned, points_possible) {
+    return points_earned / points_possible;
+}
+{
+
+};
 
