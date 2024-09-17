@@ -286,26 +286,11 @@ function object_ID(some_data) {category_ID = Object.keys(some_data);
     return mod_category_ID;
     };
 
+function data_LearnerSubmissions(LearnerSubmissions) {    
+        let student_row = [];
+        const student_array = [];
 
-
-
-
-
-// function for getLearnerData
-
-function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
-    console.log("hello");
-    let u_id = [];
-    LearnerSubmissions.forEach(({ learner_id }) => {
-        u_id.push(learner_id);
-     });
- 
-     u_id = uniqueArray(u_id);
-let student_row = [];
-const student_array = [];
-let assignment_array = [];
-const assignments_done = [];
-
+    
 
 for (let i = 0; i < LearnerSubmissions.length; i++) {
     student_row.push(LearnerSubmissions[i].learner_id);
@@ -315,51 +300,100 @@ for (let i = 0; i < LearnerSubmissions.length; i++) {
 
     student_array.push(student_row);
     student_row = [];
+}return student_array;
 }
 
-console.log(student_array);
 
+
+
+function dateformat(date_s) {
+   short_date = new Date(date_s).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    return short_date;
+}
+
+
+
+function is_not_late(datedue, datesub){
+    let is_it_late;
+    if (datedue < datesub){
+        is_it_late = false
+    }else{
+        is_it_late = true
+    }
+
+return is_it_late}
+
+// function for getLearnerData
+
+function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
+
+let test = LearnerSubmissions1(LearnerSubmission);
+u_id = test;
+
+let Learner_array = data_LearnerSubmissions(LearnerSubmissions);
+
+let assignment_array = [];
+const assignments_done = [];
+
+
+
+//Matches learners to assignment
 for (let i = 0; i < u_id.length; i++) {
     let sum = 0;
     let total_possible = 0;
     assignment_array=[]
     console.log(u_id[i]);
-    student_array.forEach(element => {
+    Learner_array .forEach(element => {
         if (u_id[i] === element[0]) {
-         sum += element[3];
+
         assignment_array.push(element[1]);
         let assignment_id =element[1];
+        let current_date =dateformat(Date());
         AssignmentGroup.assignments.forEach(el =>{
-            //console.log(element.id);
-                
-            if(el.id === assignment_id ){
+
+            if(el.id === assignment_id && current_date > dateformat(el.due_at))
+
+            {
+                sum += element[3];
+                console.log(current_date > dateformat(el.due_at));
+                console.log(current_date);
+                 console.log(dateformat(el.due_at) + " due date");
+                 console.log(dateformat(element[2]) + " submission date");
                 total_possible += el.points_possible;
-                console.log(sum/total_possible);
-                console.log("test");
-                console.log(element[3]/el.points_possible);
+                console.log(sum/total_possible+" student average");
+                console.log(element[3]/el.points_possible +" testscore");
+                console.log(is_not_late(dateformat(el.due_at),dateformat(element[2])) +" late")
             }
+
+            // if(Learner_array.length === 1){
+            //     console.log("student array length");
+            //     console.log(total_possible+ " total possible");
+            //     console.log(sum+ " sum");
+            //     console.log(sum/total_possible+" student average");
+            //     console.log(element[3]/el.points_possible +" testscore");
+            // }
         });
-        
-      
 
-            //console.log(AssignmentGroup.assignments[element[1]-1].points_possible
-
-
-    
         }
     
     });
     assignments_done.push(assignment_array);
-    //console.log(sum);
-    let avg = sum / assignment_array.length;
-   // console.log(avg);
-    //console.log(total_possible);
+    console.log(sum+"the sum");
+    let avg = sum / total_possible;
+    console.log(avg +"final");
+    console.log(total_possible);
+
+    console.log(total_possible+ " total possible final");
 }
      
 
-console.log(assignments_done);
+//console.log(assignments_done);
 
-        return true    
+        return true    ;
 
      }
 
@@ -397,9 +431,6 @@ console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
 //     // return "Hello World";
 
 //     return true;
-
-
-
 
 
 
