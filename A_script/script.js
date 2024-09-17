@@ -108,15 +108,298 @@
   
 //   console.log(result);
 
+/*
+Requirements:
+ Declare variables properly using let and const where appropriate.
+ Use operators to perform calculations on variables and literals.
+ Use strings, numbers, and Boolean values cached within variables.
+ Use at least two if/else statements to control program flow. Optionally, use at least one switch statement.
+ Use try/catch statements to manage potential errors in the code, such as incorrectly formatted or typed data being fed into your program.
+ Utilize at least two different types of loops.
+ Utilize at least one loop control keyword such as break or continue.
+ Create and/or manipulate arrays and objects.
+ Demonstrate the retrieval, manipulation, and removal of items in an array or properties in an object.
+ Use functions to handle repeated tasks.
+ Program outputs processed data as described above. Partial credit will be earned depending on the level of adherence to the described behavior.
+ Ensure that the program runs without errors (comment out things that do not work, and explain your blockers - you can still receive partial credit).
+ Commit frequently to the git repository.
+ Include a README file that contains a description of your application.
+ */
 
+  
+ // Sample inputs
 
+ const CourseInfo = {
+    id: 451,
+    name: "Introduction to JavaScript"
+  };
+  
+  // The provided assignment group.
+  const AssignmentGroup = {
+    id: 12345,
+    name: "Fundamentals of JavaScript",
+    course_id: 451,
+    group_weight: 25,
+    assignments: [
+      {
+        id: 1,
+        name: "Declare a Variable",
+        due_at: "2023-01-25",
+        points_possible: 50
+      },
+      {
+        id: 2,
+        name: "Write a Function",
+        due_at: "2023-02-27",
+        points_possible: 150
+      },
+      {
+        id: 3,
+        name: "Code the World",
+        due_at: "3156-11-15",
+        points_possible: 500
+      }
+    ]
+  };
+  
+  // The provided learner submission data.
+  const LearnerSubmissions = [
+    {
+      learner_id: 125,
+      assignment_id: 1,
+      submission: {
+        submitted_at: "2023-01-25",
+        score: 47
+      }
+    },
+    {
+      learner_id: 125,
+      assignment_id: 2,
+      submission: {
+        submitted_at: "2023-02-12",
+        score: 150
+      }
+    },
+    {
+      learner_id: 125,
+      assignment_id: 3,
+      submission: {
+        submitted_at: "2023-01-25",
+        score: 400
+      }
+    },
+    {
+      learner_id: 132,
+      assignment_id: 1,
+      submission: {
+        submitted_at: "2023-01-24",
+        score: 39
+      }
+    },
+    {
+      learner_id: 132,
+      assignment_id: 2,
+      submission: {
+        submitted_at: "2023-03-07",
+        score: 140
+      }
+    }
+  ];
   
 // function to calculate the normalized grade
 
-let normalizedgrade = function (points_earned, points_possible) {
-    return points_earned / points_possible;
-}
-{
+// let normalizedgrade = function (points_earned, points_possible) {
+//     return points_earned / points_possible;
+    
+// }
+// {
 
-};
+// };
+
+
+// console.log(normalizedgrade(28, 30)); //KBA grade ...
+
+
+// function  CourseInfo
+
+// function CourseInfo1_1(CourseInfo) {
+//     CourseInfo1 =  {
+//         id: 1,
+//         name: "Math"};
+//     if (CourseInfo1 && CourseInfo1.id !== undefined) {
+//         console.log(CourseInfo1.id);
+//     } else {
+//         console.error("Invalid CourseInfo object:", CourseInfo);
+//     }
+//     return CourseInfo1.id;
+// }
+
+
+//  function for unique values
+function uniqueArray(array) {
+    return array.filter((value, index) => array.indexOf(value) === index);
+}
+
+
+let CourseInfo1 = function (CourseInfo) {
+    return CourseInfo.id;
+}
+
+// function for AssignmentGroup
+
+function AssignmentGroup1(id, name, course_id, group_weight, assignments) {
+   // console.log(AssignmentGroup)
+
+}
+
+// function for AssignmentInfo
+
+function AssignmentInfo1(id, name, due_at, points_possible) {
+    //console.log(AssignmentInfo)
+
+}
+
+
+// function for LearnerSubmissions
+
+function LearnerSubmissions1(LearnerSubmissions) {
+    let u_id = [];
+    LearnerSubmissions.forEach(({ learner_id }) => {
+       u_id.push(learner_id);
+    });
+
+    u_id = uniqueArray(u_id);
+
+    
+
+    return u_id;
+
+}
+
+function object_ID(some_data) {category_ID = Object.keys(some_data);
+    const mod_category_ID = [];
+     category_ID.forEach(element => {
+        mod_category_ID.push("category_" + element);
+
+    });
+    //console.log(category_ID)
+    return mod_category_ID;
+    };
+
+
+
+
+
+
+// function for getLearnerData
+
+function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
+    console.log("hello");
+    let u_id = [];
+    LearnerSubmissions.forEach(({ learner_id }) => {
+        u_id.push(learner_id);
+     });
+ 
+     u_id = uniqueArray(u_id);
+let student_row = [];
+const student_array = [];
+let assignment_array = [];
+const assignments_done = [];
+
+
+for (let i = 0; i < LearnerSubmissions.length; i++) {
+    student_row.push(LearnerSubmissions[i].learner_id);
+    student_row.push(LearnerSubmissions[i].assignment_id);
+    student_row.push(LearnerSubmissions[i].submission.submitted_at);
+    student_row.push(LearnerSubmissions[i].submission.score);
+
+    student_array.push(student_row);
+    student_row = [];
+}
+
+console.log(student_array);
+
+for (let i = 0; i < u_id.length; i++) {
+    let sum = 0;
+    let total_possible = 0;
+    assignment_array=[]
+    console.log(u_id[i]);
+    student_array.forEach(element => {
+        if (u_id[i] === element[0]) {
+         sum += element[3];
+        assignment_array.push(element[1]);
+        let assignment_id =element[1];
+        AssignmentGroup.assignments.forEach(el =>{
+            //console.log(element.id);
+                
+            if(el.id === assignment_id ){
+                total_possible += el.points_possible;
+                console.log(sum/total_possible);
+                console.log("test");
+                console.log(element[3]/el.points_possible);
+            }
+        });
+        
+      
+
+            //console.log(AssignmentGroup.assignments[element[1]-1].points_possible
+
+
+    
+        }
+    
+    });
+    assignments_done.push(assignment_array);
+    //console.log(sum);
+    let avg = sum / assignment_array.length;
+   // console.log(avg);
+    //console.log(total_possible);
+}
+     
+
+console.log(assignments_done);
+
+        return true    
+
+     }
+
+
+
+
+//console.log(object_ID(CourseInfo));
+
+
+//const result = 
+console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
+
+
+//console.log(LearnerSubmissions[0])
+// console.log(CourseInfo1(CourseInfo));
+
+// console.log(CourseInfo.id);
+
+// console.log(result);
+
+// function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
+//     console.log("hello");
+//     let course_id_course_info = CourseInfo1(CourseInfo);
+//     let course_id = AssignmentGroup.id;
+//     console.log(course_id);
+//     //console.log(AssignmentGroup.course_id);
+
+//     // let test = LearnerSubmissions1(LearnerSubmission);
+//     // console.log(test); 
+
+//     // console.log("Hello World")
+//     // console.log(CourseInfo1(CourseInfo));
+//     // // console.log(AssignmentGroup1);
+//     console.log(LearnerSubmissions1(LearnerSubmission));
+//     // return "Hello World";
+
+//     return true;
+
+
+
+
+
 
