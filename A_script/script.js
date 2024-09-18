@@ -206,39 +206,9 @@ Requirements:
     }
   ];
   
-// function to calculate the normalized grade
-
-// let normalizedgrade = function (points_earned, points_possible) {
-//     return points_earned / points_possible;
-    
-// }
-// {
-
-// };
 
 
-// console.log(normalizedgrade(28, 30)); //KBA grade ...
 
-
-// function  CourseInfo
-
-// function CourseInfo1_1(CourseInfo) {
-//     CourseInfo1 =  {
-//         id: 1,
-//         name: "Math"};
-//     if (CourseInfo1 && CourseInfo1.id !== undefined) {
-//         console.log(CourseInfo1.id);
-//     } else {
-//         console.error("Invalid CourseInfo object:", CourseInfo);
-//     }
-//     return CourseInfo1.id;
-// }
-
-
-//  function for unique values
-function uniqueArray(array) {
-    return array.filter((value, index) => array.indexOf(value) === index);
-}
 
 
 let CourseInfo1 = function (CourseInfo) {
@@ -325,11 +295,37 @@ function is_not_late(datedue, datesub){
         is_it_late = true
     }
 
-return is_it_late}
+return is_it_late};
+
+
+//  function for unique values
+function uniqueArray(array) {
+    return array.filter((value, index) => array.indexOf(value) === index);
+};
+
+
+
+//function to reorder
+function new_order(object_to_change,array_of_ordered_keys){
+    let place_holder_object = {}
+    for(let i = 0; i < array_of_ordered_keys.length; i++){
+        console.log(i);
+        if(object_to_change.hasOwnProperty(array_of_ordered_keys[i])){
+            place_holder_object[array_of_ordered_keys[i]] = object_to_change[array_of_ordered_keys[i]];
+        }
+    }
+
+    return place_holder_object;
+
+};
+
+
 
 // function for getLearnerData
 
 function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
+
+const result =[];
 
 let test = LearnerSubmissions1(LearnerSubmission);
 u_id = test;
@@ -343,30 +339,41 @@ const assignments_done = [];
 
 //Matches learners to assignment
 for (let i = 0; i < u_id.length; i++) {
+    let student_object = {};
     let sum = 0;
     let total_possible = 0;
     assignment_array=[]
-    console.log(u_id[i]);
+    //console.log(u_id[i]);
+    student_object.id = u_id[i];
     Learner_array .forEach(element => {
         if (u_id[i] === element[0]) {
 
         assignment_array.push(element[1]);
         let assignment_id =element[1];
-        let current_date =dateformat(Date());
+        let current_date = dateformat(Date());
         AssignmentGroup.assignments.forEach(el =>{
 
             if(el.id === assignment_id && current_date > dateformat(el.due_at))
 
             {
-                sum += element[3];
-                console.log(current_date > dateformat(el.due_at));
-                console.log(current_date);
-                 console.log(dateformat(el.due_at) + " due date");
-                 console.log(dateformat(element[2]) + " submission date");
+
+                let test_score;
+                if (is_not_late(dateformat(el.due_at),dateformat(element[2])))
+                { test_score = element[3]}
+                else{test_score= element[3] - (el.points_possible*.1)};
+                //console.log(test_score + "________________score");
+                sum += test_score;
+                // console.log(current_date > dateformat(el.due_at));
+                // console.log(current_date);
+                //  console.log(dateformat(el.due_at) + " due date");
+                //  console.log(dateformat(element[2]) + " submission date");
                 total_possible += el.points_possible;
-                console.log(sum/total_possible+" student average");
-                console.log(element[3]/el.points_possible +" testscore");
-                console.log(is_not_late(dateformat(el.due_at),dateformat(element[2])) +" late")
+                // console.log(sum/total_possible+" student average");
+                //console.log(test_score/el.points_possible +" testscore");
+                let assig = el.id 
+                //console.log(assig)
+                student_object[assig] = test_score/el.points_possible;
+                //console.log(is_not_late(dateformat(el.due_at),dateformat(element[2])) +" late")
             }
 
             // if(Learner_array.length === 1){
@@ -382,23 +389,40 @@ for (let i = 0; i < u_id.length; i++) {
     
     });
     assignments_done.push(assignment_array);
-    console.log(sum+"the sum");
+   // console.log(sum+"the sum");
     let avg = sum / total_possible;
-    console.log(avg +"final");
-    console.log(total_possible);
+   // console.log(avg +"final");
+    //console.log(total_possible);
 
-    console.log(total_possible+ " total possible final");
+  //  console.log(total_possible+ " total possible final");
+
+    student_object.avg= avg;
+
+    output_order =[ "id", "avg"];
+    output_order2 =[ '1', '2'];
+    
+    
+   let ff = new_order(student_object,output_order);
+   let ff2 = new_order(student_object,output_order2);
+   let combo = Object.assign({}, ff, ff2)
+
+
+    console.log(ff)
+    console.log(ff2)
+    console.log(combo)
+    result.push(student_object)
+
 }
      
 
 //console.log(assignments_done);
 
-        return true    ;
+        return result ;
 
      }
 
-
-
+// let final = new_order(result)
+// console = fun
 
 //console.log(object_ID(CourseInfo));
 
@@ -407,6 +431,24 @@ for (let i = 0; i < u_id.length; i++) {
 console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
 
 
+
+
+const result2 = [
+    {
+      id: 125,
+      avg: 0.985, // (47 + 150) / (50 + 150)
+      1: 0.94, // 47 / 50
+      2: 1.0 // 150 / 150
+    },
+    {
+      id: 132,
+      avg: 0.82, // (39 + 125) / (50 + 150)
+      1: 0.78, // 39 / 50
+      2: 0.833 // late: (140 - 15) / 150
+    }
+  ];
+
+console.log(result2)
 //console.log(LearnerSubmissions[0])
 // console.log(CourseInfo1(CourseInfo));
 
