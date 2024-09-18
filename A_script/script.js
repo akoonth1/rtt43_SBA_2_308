@@ -309,7 +309,6 @@ function uniqueArray(array) {
 function new_order(object_to_change,array_of_ordered_keys){
     let place_holder_object = {}
     for(let i = 0; i < array_of_ordered_keys.length; i++){
-        console.log(i);
         if(object_to_change.hasOwnProperty(array_of_ordered_keys[i])){
             place_holder_object[array_of_ordered_keys[i]] = object_to_change[array_of_ordered_keys[i]];
         }
@@ -324,6 +323,17 @@ function new_order(object_to_change,array_of_ordered_keys){
 // function for getLearnerData
 
 function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
+    console.log(CourseInfo)
+
+switch (CourseInfo.id) {
+    case AssignmentGroup.course_id:
+        console.log(1);
+        break;
+
+    default:
+        console.log(2);
+        break;
+}   
 
 const result =[];
 
@@ -402,14 +412,15 @@ for (let i = 0; i < u_id.length; i++) {
     output_order2 =[ '1', '2'];
     
     
-   let ff = new_order(student_object,output_order);
-   let ff2 = new_order(student_object,output_order2);
-   let combo = Object.assign({}, ff, ff2)
+//    let ff = new_order(student_object,output_order);
+//    let ff2 = new_order(student_object,output_order2);
+//    let combo = Object.assign({}, ff, ff2)
 
 
-    console.log(ff)
-    console.log(ff2)
-    console.log(combo)
+//     console.log(ff)
+//     console.log(ff2)
+   // console.log(combo)
+
     result.push(student_object)
 
 }
@@ -433,46 +444,21 @@ console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
 
 
 
-const result2 = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
-  ];
-
-console.log(result2)
-//console.log(LearnerSubmissions[0])
-// console.log(CourseInfo1(CourseInfo));
-
-// console.log(CourseInfo.id);
-
-// console.log(result);
-
-// function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
-//     console.log("hello");
-//     let course_id_course_info = CourseInfo1(CourseInfo);
-//     let course_id = AssignmentGroup.id;
-//     console.log(course_id);
-//     //console.log(AssignmentGroup.course_id);
-
-//     // let test = LearnerSubmissions1(LearnerSubmission);
-//     // console.log(test); 
-
-//     // console.log("Hello World")
-//     // console.log(CourseInfo1(CourseInfo));
-//     // // console.log(AssignmentGroup1);
-//     console.log(LearnerSubmissions1(LearnerSubmission));
-//     // return "Hello World";
-
-//     return true;
 
 
+// const result2 = [
+//     {
+//       id: 125,
+//       avg: 0.985, // (47 + 150) / (50 + 150)
+//       1: 0.94, // 47 / 50
+//       2: 1.0 // 150 / 150
+//     },
+//     {
+//       id: 132,
+//       avg: 0.82, // (39 + 125) / (50 + 150)
+//       1: 0.78, // 39 / 50
+//       2: 0.833 // late: (140 - 15) / 150
+//     }
+//   ];
 
+// console.log(result2)
