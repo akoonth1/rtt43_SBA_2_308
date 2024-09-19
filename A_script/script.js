@@ -107,32 +107,11 @@ Requirements:
   ];
   
 
-
-
-
-
-let CourseInfo1 = function (CourseInfo) {
-    return CourseInfo.id;
-}
-
-// function for AssignmentGroup
-
-function AssignmentGroup1(id, name, course_id, group_weight, assignments) {
-   // console.log(AssignmentGroup)
-
-}
-
-// function for AssignmentInfo
-
-function AssignmentInfo1(id, name, due_at, points_possible) {
-    //console.log(AssignmentInfo)
-
-}
-
+//Start of code--
 
 // function for LearnerSubmissions
 
-function LearnerSubmissions1(LearnerSubmissions) {
+function learners(LearnerSubmissions) {
     let u_id = [];
     LearnerSubmissions.forEach(({ learner_id }) => {
        u_id.push(learner_id);
@@ -220,39 +199,47 @@ function new_order(object_to_change,array_of_ordered_keys){
 
 
 
+//Valid Course ID
+function course_validation(CourseInfo, AssignmentGroup){
+  
+switch (CourseInfo.id) {
+  case AssignmentGroup.course_id:
+      // No error
+      break;
+
+  default:
+      return [ false, `Course_ID does not match Assignment_Course_ID, please recheck if ${CourseInfo.name} is the correct course.`];
+      break;
+}   
+
+}
+
 // function for getLearnerData
 
 function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmission){
-    console.log(CourseInfo)
-
-switch (CourseInfo.id) {
-    case AssignmentGroup.course_id:
-        console.log(1);
-        break;
-
-    default:
-        console.log(2);
-        break;
-}   
+   // console.log(CourseInfo)
 
 const result =[];
 
-// try {
-//   if (typeof()!== Number) throw "Invalid grade";
+//Check if course is correct
+let is_correct_course = course_validation(CourseInfo, AssignmentGroup);
+
+if (is_correct_course === undefined){
+   is_correct_course = true;}
+else
+  {if (is_correct_course[0] === false) return is_correct_course[1];
+}
   
-// } catch (error) {
 
-//   console.log(error)
-
-// }
-
-
-  
-let test = LearnerSubmissions1(LearnerSubmission);
+//find Unique ID for learners
+let test = learners(LearnerSubmission);
 u_id = test;
 
-let Learner_array = data_LearnerSubmissions(LearnerSubmissions);
+//building array from LearnerSubmissions for ease of use 
+const Learner_array = data_LearnerSubmissions(LearnerSubmissions);
 
+
+//For tracking assignments
 let assignment_array = [];
 const assignments_done = [];
 
@@ -290,82 +277,55 @@ for (let i = 0; i < u_id.length; i++) {
 
                 }
             
-
+              //Throw error if points possible is an invalid choice.  
 
 
 
                 let test_score;
                 if (is_not_late(dateformat(el.due_at),dateformat(element[2])))
                 { test_score = element[3]}
+                
                 else{test_score= element[3] - (el.points_possible*.1)};
-                //console.log(test_score + "________________score");
+
                 sum += test_score;
-                // console.log(current_date > dateformat(el.due_at));
-                // console.log(current_date);
-                //  console.log(dateformat(el.due_at) + " due date");
-                //  console.log(dateformat(element[2]) + " submission date");
+
                 total_possible += el.points_possible;
-                // console.log(sum/total_possible+" student average");
-                //console.log(test_score/el.points_possible +" testscore");
+
                 let assig = el.id 
-                //console.log(assig)
+
                 student_object[assig] = test_score/el.points_possible;
-                //console.log(is_not_late(dateformat(el.due_at),dateformat(element[2])) +" late")
+
             }
 
-            // if(Learner_array.length === 1){
-            //     console.log("student array length");
-            //     console.log(total_possible+ " total possible");
-            //     console.log(sum+ " sum");
-            //     console.log(sum/total_possible+" student average");
-            //     console.log(element[3]/el.points_possible +" testscore");
-            // }
+
         });
 
         }
     
     });
-    assignments_done.push(assignment_array);
-   // console.log(sum+"the sum");
-    let avg = sum / total_possible;
-   // console.log(avg +"final");
-    //console.log(total_possible);
 
-  //  console.log(total_possible+ " total possible final");
+// Switching object enumeration works but if keys are alphanumeric numbers will appear first 
 
-    student_object.avg= avg;
-
-    output_order =[ "id", "avg"];
-    output_order2 =[ '1', '2'];
-    
-    
+// student_object.avg= avg;
+// output_order =[ "id", "avg"];
+// output_order2 =[ '1', '2'];
 //    let ff = new_order(student_object,output_order);
 //    let ff2 = new_order(student_object,output_order2);
 //    let combo = Object.assign({}, ff, ff2)
-
-
 //     console.log(ff)
 //     console.log(ff2)
-   // console.log(combo)
+// console.log(combo)
 
     result.push(student_object)
 
 }
      
 
-//console.log(assignments_done);
-
         return result ;
 
      }
+//final creation of learner data object 
 
-// let final = new_order(result)
-// console = fun
-
-//console.log(object_ID(CourseInfo));
-
-
-//const result = 
 console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
 
 
@@ -391,45 +351,3 @@ console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
 // console.log(result2)
 
 
-
-// try {
-//   if (typeof(x)!== Number) throw "Invalid grade";
-  
-// } catch (error) {
-
-//   console.log(error)
-
-// }
-  
-
-
-
-
-// try {
-//   if (typeof(x) == 0) throw "Invalid grade";
-  
-// } catch (error) {
-
-//   console.log(error)
-
-// }
-  
-
-
-
-
-// function myFunction() {
-//   const message = document.getElementById("p01");
-//   message.innerHTML = "";
-//   let x = document.getElementById("demo").value;
-//   try { 
-//     if(x.trim() == "")  throw "empty";
-//     if(isNaN(x)) throw "not a number";
-//     x = Number(x);
-//     if(x < 5)  throw "too low";
-//     if(x > 10)   throw "too high";
-//   }
-//   catch(err) {
-//     message.innerHTML = "Input is " + err;
-//   }
-// }
