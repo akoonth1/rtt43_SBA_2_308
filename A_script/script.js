@@ -69,7 +69,7 @@ Requirements:
       assignment_id: 1,
       submission: {
         submitted_at: "2023-01-25",
-        score: 47
+        score:47
       }
     },
     {
@@ -243,9 +243,15 @@ const Learner_array = data_LearnerSubmissions(LearnerSubmissions);
 let assignment_array = [];
 const assignments_done = [];
 
+//For date validation
+const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
+
+
+
 
 
 //Matches learners to assignment
+
 for (let i = 0; i < u_id.length; i++) {
     let student_object = {};
     let sum = 0;
@@ -257,9 +263,29 @@ for (let i = 0; i < u_id.length; i++) {
         if (u_id[i] === element[0]) {
 
         assignment_array.push(element[1]);
-        let assignment_id =element[1];
+        let assignment_id = element[1];
         let current_date = dateformat(Date());
+        let date_test2 = dateFormat.test(element[2]);
+        switch (date_test2) {
+          case true:
+              break;
+  
+          case false:
+              console.log("Please check the date format for submitted assignment: " + element[1]+ " Learner ID: "+ element[0]);
+              break;
+  
+          default:
+              break;
+      }        
+
         AssignmentGroup.assignments.forEach(el =>{
+
+          //AssignmentGroup.assignments.due_at
+
+
+
+
+            //Check dates
 
             if(el.id === assignment_id && current_date > dateformat(el.due_at))
 
@@ -267,20 +293,31 @@ for (let i = 0; i < u_id.length; i++) {
 
               
                 try {
-                  if (typeof(el.points_possible) !== "number") throw "Invalid grade";
-                  if (el.points_possible <= 0) throw "Invalid points";
+
+
+                  if (typeof(el.points_possible) !== "number" || (el.points_possible <= 0) ) throw "Invalid grade";
+
                   
                 } catch (error) {
 
-                  console.log(error)
-                 
+
+                 return console.log("Please check the points_possible for assignment: " + el.name)
 
                 }
             
+
+                try {
+
+                  if (typeof(element[3]) !== "number" || (element[3] < 0) ) throw "Invalid grade";
+                  
+                } catch (error) {
+
+
+                 return console.log("Please check score for assignment: " +el.id +" "+ el.name)
+                }
+            
               //Throw error if points possible is an invalid choice.  
-
-
-
+    
                 let test_score;
                 if (is_not_late(dateformat(el.due_at),dateformat(element[2])))
                 { test_score = element[3]}
@@ -293,10 +330,28 @@ for (let i = 0; i < u_id.length; i++) {
 
                 let assig = el.id 
 
-                student_object[assig] = test_score/el.points_possible;
+                student_object[assig] =  (test_score / el.points_possible).toPrecision(3);
 
             }
 
+            let date_test = dateFormat.test(el.due_at);
+            try {
+              switch (date_test) {
+                  case true:
+                      break;
+          
+                  case false:
+                      throw ("Please check the date format for assignment: " + el.name);
+                      break;
+          
+                  default:
+                      break;
+              }
+          
+          
+          } catch (error) {
+              console.log( error);
+          }
 
         });
 
@@ -304,9 +359,11 @@ for (let i = 0; i < u_id.length; i++) {
     
     });
 
-// Switching object enumeration works but if keys are alphanumeric numbers will appear first 
 
-// student_object.avg= avg;
+let avg = sum / total_possible;
+student_object.avg= avg;
+
+// Switching object enumeration works but if keys are alphanumeric numbers will appear first 
 // output_order =[ "id", "avg"];
 // output_order2 =[ '1', '2'];
 //    let ff = new_order(student_object,output_order);
@@ -318,9 +375,11 @@ for (let i = 0; i < u_id.length; i++) {
 
     result.push(student_object)
 
-}
-     
+    
 
+  }
+     
+//console.log(Learner_array)
         return result ;
 
      }
