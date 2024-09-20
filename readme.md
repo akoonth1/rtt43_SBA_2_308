@@ -39,3 +39,5 @@ SBA_2_308 is a small script produced to extract and manipulate data.
 https://www.w3schools.com/js/js_errors.asp
 
 Based try catch on example structure
+
+updated
