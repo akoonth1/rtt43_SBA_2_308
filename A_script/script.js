@@ -154,6 +154,7 @@ for (let i = 0; i < LearnerSubmissions.length; i++) {
 
 
 
+  
 
 function dateformat(date_s) {
    short_date = new Date(date_s).toLocaleDateString('en-US', {
@@ -238,16 +239,52 @@ u_id = test;
 //building array from LearnerSubmissions for ease of use 
 const Learner_array = data_LearnerSubmissions(LearnerSubmissions);
 
+//Deep copy needed for while loop
+let u_id_copy = u_id.slice();
+let student_count = 0;
+//checking student count.
+while (u_id_copy.length > 0) {
+  u_id_copy.pop();
+    student_count += 1;
+}
+//console.log("Number of students found: " + student_count)
 
 //For tracking assignments
 let assignment_array = [];
-const assignments_done = [];
+const assignments_data = [];
 
 //For date validation
 const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
 
 
 
+
+
+
+AssignmentGroup.assignments.forEach(thing => { assignments_data.push([thing.due_at])
+
+let date_test = dateFormat.test(thing.due_at);
+try {
+  switch (date_test) {
+      case true:
+          break;
+
+      case false:
+          throw new Error("Please check the date format for assignment: " + thing.name);
+          //console.log("Please check the date format for assignment: " + thing.name);
+          break;
+
+      default:
+          break;
+  }
+
+
+} catch (error) {
+  console.log( error);
+  
+}
+
+});
 
 
 //Matches learners to assignment
@@ -278,7 +315,7 @@ for (let i = 0; i < u_id.length; i++) {
               break;
       }        
 
-        AssignmentGroup.assignments.forEach(el =>{
+   AssignmentGroup.assignments.forEach(el =>{
 
           //AssignmentGroup.assignments.due_at
 
@@ -334,24 +371,6 @@ for (let i = 0; i < u_id.length; i++) {
 
             }
 
-            let date_test = dateFormat.test(el.due_at);
-            try {
-              switch (date_test) {
-                  case true:
-                      break;
-          
-                  case false:
-                      throw ("Please check the date format for assignment: " + el.name);
-                      break;
-          
-                  default:
-                      break;
-              }
-          
-          
-          } catch (error) {
-              console.log( error);
-          }
 
         });
 
@@ -388,7 +407,7 @@ student_object.avg= avg;
 console.log(getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions));
 
 
-
+//Output matches the expected output
 
 
 
